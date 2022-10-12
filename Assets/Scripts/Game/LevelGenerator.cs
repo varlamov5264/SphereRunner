@@ -55,7 +55,6 @@ public class LevelGenerator : MonoBehaviour
         _obstacles = _obstacles.FindAll(x => x != null);
     }
 
-
     private void OnDisable()
     {
         _playerMovement.onUpdatePosition -= PlayerUpdatePosition;

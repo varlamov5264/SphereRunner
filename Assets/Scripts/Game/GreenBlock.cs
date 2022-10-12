@@ -7,6 +7,7 @@ public class GreenBlock : Obstacle
         if (collider.CompareTag("Player") &&
             collider.TryGetComponent(out PlayerMovement player))
         {
+            GetComponent<PointsCollector>();
             PointsCollector.Instance.Add(1);
             Destroy(gameObject);
         }

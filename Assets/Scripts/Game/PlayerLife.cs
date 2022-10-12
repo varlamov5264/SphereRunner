@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerLife : MonoBehaviour
+public class PlayerLife : MonoBehaviour, IDamageable
 {
     public int LifeCount { get; private set; } = 3;
     public bool Dead { get; private set; }

@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public Action<Vector2> onUpdatePosition;
     [SerializeField] private Area _area;
-    private PlayerLife _playerLife;
+    private IDamageable _damageable;
     private IInputController _inputController;
     private ISpeedLogic _speedLogic;
     private float _currentSpeed;
@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        _playerLife = GetComponent<PlayerLife>();
+        _damageable = GetComponent<IDamageable>();
         _inputController = new TouchInput();
         _inputController.Start();
         _speedLogic = new SpeedByPoints();
@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_inputController == null ||
             _speedLogic == null ||
-            _playerLife.Dead)
+            _damageable.Dead)
             return;
         _inputController.Update();
         if (_currentSpeed != _speedLogic.Speed && !_lerpSpeed)
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
             .PlusY(_currentSpeed * Time.deltaTime * DefaultSpeedMultiplier);
         if (Mathf.Abs(transform.position.x) + Width / 2 > _area.CurrentBorder)
         {
-            _playerLife.Damage();
+            _damageable.Damage();
             _inputController.Reset();
         }
         onUpdatePosition?.Invoke(transform.position);

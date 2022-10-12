@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ObjectsLibrary : Singleton<ObjectsLibrary>
 {
-
     [SerializeField] private GreenBlock _greenBlock;
     [SerializeField] private RedBlock _redBlock;
 
@@ -20,11 +19,11 @@ public class ObjectsLibrary : Singleton<ObjectsLibrary>
         }
     }
 
-    public GreenBlock GetGreenBlock() => GetBlock(_greenBlock);
+    public GreenBlock GetGreenBlock() => GetObstacle(_greenBlock);
 
-    public RedBlock GetRedBlock() => GetBlock(_redBlock);
+    public RedBlock GetRedBlock() => GetObstacle(_redBlock);
 
-    private T GetBlock<T>(T blockPrefab) where T: MonoBehaviour 
+    private T GetObstacle<T>(T blockPrefab) where T: Obstacle 
     {
         var newBlock = Instantiate(blockPrefab);
         newBlock.gameObject.SetActive(true);
