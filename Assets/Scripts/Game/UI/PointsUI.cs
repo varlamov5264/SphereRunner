@@ -4,10 +4,11 @@ using UnityEngine.UI;
 public class PointsUI : MonoBehaviour
 {
     [SerializeField] private Text _label;
+    [Zenject.Inject] private PointsCollector _pointsCollector;
 
     private void OnEnable()
     {
-        PointsCollector.Instance.onAddPoints += GetNewPoints;
+        _pointsCollector.onAddPoints += GetNewPoints;
         GetNewPoints(0);
     }
 
@@ -18,7 +19,7 @@ public class PointsUI : MonoBehaviour
 
     private void OnDisable()
     {
-        if (PointsCollector.IsAvailible)
-            PointsCollector.Instance.onAddPoints -= GetNewPoints;
+        if (_pointsCollector)
+            _pointsCollector.onAddPoints -= GetNewPoints;
     }
 }

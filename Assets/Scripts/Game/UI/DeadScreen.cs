@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class DeadScreen : MonoBehaviour
 {
-    [SerializeField] private PlayerLife _playerLife;
+    [Zenject.Inject] private ILifeUpdatable _playerLife;
     [SerializeField] private GameObject _window;
 
     private void OnEnable()

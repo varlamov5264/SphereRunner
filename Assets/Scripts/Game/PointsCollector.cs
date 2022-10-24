@@ -1,6 +1,7 @@
 using System;
+using UnityEngine;
 
-public class PointsCollector : Singleton<PointsCollector>
+public class PointsCollector : MonoBehaviour
 {
     public Action<int> onAddPoints;
     public int Points { get; private set; }

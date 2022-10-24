@@ -1,9 +1,11 @@
 using UnityEngine;
+using Zenject;
 
-public class ObjectsLibrary : Singleton<ObjectsLibrary>
+public class ObjectsLibrary : MonoBehaviour
 {
     [SerializeField] private GreenBlock _greenBlock;
     [SerializeField] private RedBlock _redBlock;
+    [Inject] private DiContainer _diContainer;
 
     public Obstacle GetRandomObstacle()
     {
@@ -25,7 +27,7 @@ public class ObjectsLibrary : Singleton<ObjectsLibrary>
 
     private T GetObstacle<T>(T blockPrefab) where T: Obstacle 
     {
-        var newBlock = Instantiate(blockPrefab);
+        var newBlock = _diContainer.InstantiatePrefabForComponent<T>(blockPrefab);
         newBlock.gameObject.SetActive(true);
         return newBlock;
     }

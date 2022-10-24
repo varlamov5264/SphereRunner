@@ -2,6 +2,7 @@
 
 public class SpeedByPoints : ISpeedLogic
 {
+    [Zenject.Inject] private PointsCollector _pointsCollector;
     public class Preferences
     {
         public Preferences(int points, float speed)
@@ -27,7 +28,7 @@ public class SpeedByPoints : ISpeedLogic
 
     public void Start()
     {
-        PointsCollector.Instance.onAddPoints += GetNewPoints;
+        _pointsCollector.onAddPoints += GetNewPoints;
         GetNewPoints(0);
     }
 
@@ -39,7 +40,7 @@ public class SpeedByPoints : ISpeedLogic
 
     public void OnDisable()
     {
-        if (PointsCollector.IsAvailible)
-            PointsCollector.Instance.onAddPoints -= GetNewPoints;
+        if (_pointsCollector)
+            _pointsCollector.onAddPoints -= GetNewPoints;
     }
 }

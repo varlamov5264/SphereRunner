@@ -2,31 +2,37 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerLife))]
-public class PlayerMovement : MonoBehaviour
+[RequireComponent(typeof(IDamageable))]
+public class PlayerMovement : MonoBehaviour, IMovable
 {
-    public Action<Vector2> onUpdatePosition;
-    [SerializeField] private Area _area;
+    public Action<Vector2> onUpdatePosition { get; set; }
     private IDamageable _damageable;
     private IInputController _inputController;
     private ISpeedLogic _speedLogic;
+    private Area _area;
     private float _currentSpeed;
     private const float Width = 1;
     private const float DefaultSpeedMultiplier = 2;
     private bool _lerpSpeed;
+    private bool _isStart;
+
+    [Zenject.Inject]
+    public void Construct(IInputController inputController, ISpeedLogic speedLogic, Area area)
+    {
+        _inputController = inputController;
+        _speedLogic = speedLogic;
+        _area = area;
+    }
 
     private void Start()
     {
         _damageable = GetComponent<IDamageable>();
-        _inputController = new TouchInput();
-        _inputController.Start();
-        _speedLogic = new SpeedByPoints();
-        _speedLogic.Start();
     }
 
     private void Update()
     {
-        if (_inputController == null ||
+        if (!_isStart ||
+            _inputController == null ||
             _speedLogic == null ||
             _damageable.Dead)
             return;
@@ -42,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
             _inputController.Reset();
         }
         onUpdatePosition?.Invoke(transform.position);
+        _area.UpdatePosition(transform.position);
     }
 
     private IEnumerator LerpSpeed()
@@ -60,6 +67,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        _speedLogic.OnDisable();
+        _speedLogic?.OnDisable();
+    }
+
+    public void StartMove()
+    {
+        _inputController.Start();
+        _speedLogic.Start();
+        _isStart = true;
     }
 }

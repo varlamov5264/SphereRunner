@@ -3,12 +3,12 @@ using UnityEngine.UI;
 
 public class LifeUI : MonoBehaviour
 {
-    [SerializeField] private PlayerLife _playerLife;
+    [Zenject.Inject] private ILifeUpdatable _lifeUpdateble;
     [SerializeField] private Text _label;
 
     private void OnEnable()
     {
-        _playerLife.onLifeUpdate += OnLifeUpdate;
+        _lifeUpdateble.onLifeUpdate += OnLifeUpdate;
     }
 
     private void OnLifeUpdate(int life)
@@ -18,6 +18,6 @@ public class LifeUI : MonoBehaviour
 
     private void OnDisable()
     {
-        _playerLife.onLifeUpdate += OnLifeUpdate;
+        _lifeUpdateble.onLifeUpdate -= OnLifeUpdate;
     }
 }

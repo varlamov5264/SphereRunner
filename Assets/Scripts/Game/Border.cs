@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Border : MonoBehaviour
 {
-    [SerializeField] private Area _area;
+    [Zenject.Inject] private Area _area;
     [SerializeField] private float _coefficientX;
     [SerializeField] private float _width;
 

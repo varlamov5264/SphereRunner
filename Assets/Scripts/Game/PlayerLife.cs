@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerLife : MonoBehaviour, IDamageable
+public class PlayerLife : MonoBehaviour, IDamageable, ILifeUpdatable
 {
     public int LifeCount { get; private set; } = 3;
     public bool Dead { get; private set; }
-    public Action<int> onLifeUpdate;
-    public Action onDead;
+    public Action<int> onLifeUpdate { get; set; }
+    public Action onDead { get; set; }
     [SerializeField] private MeshRenderer _meshRenderer;
     private bool _protection;
 

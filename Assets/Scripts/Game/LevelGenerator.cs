@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    [SerializeField] private Area _area;
-    [SerializeField] private PlayerMovement _playerMovement;
+    [Zenject.Inject] private ObjectsLibrary _objectsLibrary;
+    [Zenject.Inject] private Area _area;
+    [Zenject.Inject] private IMovable _movable;
     [SerializeField] private Vector2 _borderAreaRange;
     [SerializeField] private float _obstacleDistance = 5;
     [SerializeField] private float _updateArea = 50;
@@ -18,7 +19,7 @@ public class LevelGenerator : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerMovement.onUpdatePosition += PlayerUpdatePosition;
+        _movable.onUpdatePosition += PlayerUpdatePosition;
     }
 
     private void PlayerUpdatePosition(Vector2 position)
@@ -29,7 +30,7 @@ public class LevelGenerator : MonoBehaviour
         {
             RemoveOldObstacles(position);
             _obstacleCount++;
-            var obstacle = ObjectsLibrary.Instance.GetRandomObstacle();
+            var obstacle = _objectsLibrary.GetRandomObstacle();
             var x = _area.border - obstacle.width / 2;
             obstacle.transform.position = obstacle.transform.position
                 .SetX(Random.Range(-x, x))
@@ -57,6 +58,6 @@ public class LevelGenerator : MonoBehaviour
 
     private void OnDisable()
     {
-        _playerMovement.onUpdatePosition -= PlayerUpdatePosition;
+        _movable.onUpdatePosition -= PlayerUpdatePosition;
     }
 }
